@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="title" content="UBG100">
+	<meta name="description" content="Play your favorite online games free now!">
+	<meta name="language" content="English">
+	<title>UBG100</title>
+	<link rel="icon" type="image/x-icon" href="/assets/img/socials/ubg100.png" />
+	<link rel="mask-icon" type="" href="/assets/img/socials/ubg100.png" color="#111" />
+	<link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/contentpage.css">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+		integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+	<noscript>Your browser doesn't have JavaScript enabled. Please enable JavaScript or switch to a browser that
+		supports it.</noscript>
+</head>
+
+<body>
+	<div class="content-wrapper">
+		<div class="main-content">
+			<section class="content">
+				<div class="content-container">
+					<iframe src="/games/eaglercraft/index.html" allowfullscreen scrolling="no"></iframe>
+					<script>
+						const game = document.getElementsByTagName("iframe")[0];
+
+						window.addEventListener('DOMContentLoaded', (event) => {
+							game.focus();
+							game.contentDocument.addEventListener('click', () => {
+								game.focus();
+							});
+							game.addEventListener("focusout", function () {
+								window.onbeforeunload = null;
+							});
+						});
+					</script>
+					<div class="bar">
+						<div class="bar-left">
+							<h1 id="content-title">Game Title</h1>
+							<h3 id="content-creator">by Game Creator</h3>
+						</div>
+						<button onclick="iFullscreen()">
+							<i class="fas fa-expand fa-2x"></i>
+						</button>
+					</div>
+				</div>
+
+				<div class="othergames-container">
+					<h1 class="othergames-header">Recommended<hr class="othergames-hr"></h1>
+					<div class="og-wrap"></div>
+				</div>
+			</section>
+			<div class="desc">
+				<h1>Description</h1>
+				<p id="content-desc"></p>
+
+				<br>
+
+				<h1>Controls</h1>
+				<ul id="content-controls"></ul>
+			</div>
+		</div>
+
+    </div>
+    <div class="footer__container">
+  <div class="footer-content">
+      <div class="footer-content__left">
+          <h2 class="footer-content__title">
+              <span class="footer-content__title_span1">UBG</span><span class="footer-content__title_span2">100</span>
+              <img src="/assets/img/socials/ubg100.png" alt="UBG100">
+          </h2>
+          <p class="footer-content__text">
+              Free games for everyone.
+          </p>
+          <div class="socials">
+              <div class="socials__inner">
+                  <a href="https://instagram.com/officialubg100/" target="_blank" class="socials__link" rel="noreferrer">
+                      <img src="/assets/img/socials/instagram.svg" alt="Instagram">
+                  </a>                
+                  <a href="https://tiktok.com/@officialubg100" target="_blank" class="socials__link" rel="noreferrer">
+                      <img src="/assets/img/socials/tiktok.svg" alt="TikTok">
+                  </a>
+                  <a href="https://discord.gg/yXJgyuByYZ" target="_blank" class="socials__link" rel="noreferrer">
+                      <img src="/assets/img/socials/discordicon.svg" alt="Discord">
+                  </a>
+                  <a href="mailto:help.ubg100@gmail.com" target="_blank" class="socials__link" rel="noreferrer">
+                      <img src="/assets/img/socials/gmail.svg" alt="Email">
+                  </a>
+                  <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="socials__link" rel="noreferrer">
+                      <img src="/assets/img/socials/youtube.svg" alt="Youtube">
+                  </a>
+              </div>
+          </div>
+          <div class="footer__visits"><i class="fas fa-eye"></i><span id="visit-count">0</span></div>
+          <a href="/changelog.html" target="_top" class="footer__version"><i class="fas fa-code-branch"></i><div class="version">${version}</div></a>
+          
+      </div> 
+      <div class="footer-content__right">
+          <div class="footer-content__wrapper">
+              <nav class="footer-content__nav">
+                  <a class="footer-content__nav-link" href="/" target="_top">Home</a>
+                  <a class="footer-content__nav-link" href="/games.html" target="_top">Games</a>
+                  <a class="footer-content__nav-link" href="/faq.html" target="_top">FAQ</a>
+                  <a class="footer-content__nav-link" href="/terms.html" target="_top">Terms of Service</a>
+              </nav>
+              <nav class="footer-content__nav">
+                  <a class="footer-content__nav-link" href="/changelog.html" target="_top">Changelog</a>
+                  <a class="footer-content__nav-link" href="/settings.html" target="_top">Settings</a>
+                  <a class="footer-content__nav-link" href="/dmca.html" target="_top">DMCA</a>
+                  <a class="footer-content__nav-link" href="/privacy.html" target="_top">Privacy Policy</a>
+              </nav>
+          </div>
+      </div>
+  </div>
+  <div class="footer-copyright">
+      <p class="footer-copyright__text">Copyright UBG100 © 2019-${copyrightDate}. All rights reserved to respective owners</p>
+  </div>
+  </div>`
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/assets/js/main.js"></script>
+	<script src="/assets/js/games/games.js"></script>
+	<script src="/assets/js/contentpage.js"></script>
+	<script src="/assets/js/gads/gads.js"></script>
+</body>
+</html>
