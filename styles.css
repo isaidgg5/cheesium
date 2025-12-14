@@ -46,6 +46,7 @@ h1 {
     color: var(--ctp-lavender);
     font-size: 48px;
     margin-bottom: 10px;
+    margin-top: 0;
 }
 
 p {
@@ -53,8 +54,7 @@ p {
 }
 
 #game-count {
-    font-size: 18px;
-    color: var(--ctp-overlay1);
+  font-size:24px;
     margin: 10px 0;
 }
 
@@ -115,6 +115,7 @@ body {
 .logo {
     height:200px;
     width: 200px;
+    margin-bottom: 0;
 }
 
 a {
