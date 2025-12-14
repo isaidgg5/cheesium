@@ -184,6 +184,12 @@ a:hover {
     padding: 0;
 }
 
+/* Custom fit for games with text that gets cut off */
+.game-card.fit-contain img {
+    object-fit: contain;
+    background-color: var(--ctp-surface0);
+}
+
 /* Game Title Overlay */
 .game-title {
     position: absolute;
