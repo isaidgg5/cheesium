@@ -121,3 +121,74 @@ div.polaroid:hover{
     animation: smooth-appear 1s ease forwards;
     font-size: 16px;
   }
+
+  /* Alphabet Navigation Sidebar */
+  .alphabet-nav {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px 10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 1000;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  }
+
+  .alphabet-nav::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .alphabet-nav::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .alphabet-nav::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+  }
+
+  .alphabet-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    font-size: 18px;
+    font-family: OnestBold;
+    text-align: center;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    min-width: 35px;
+  }
+
+  .alphabet-nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    color: #fff;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .alphabet-nav {
+      right: 5px;
+      padding: 10px 6px;
+      gap: 5px;
+    }
+    
+    .alphabet-nav a {
+      padding: 6px 8px;
+      font-size: 14px;
+      min-width: 28px;
+    }
+  }

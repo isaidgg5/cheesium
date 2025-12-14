@@ -1,0 +1,135 @@
+:root {
+  --bg-color: #f8f8f8;
+  --text-color: #000;
+  --link-color: #0077cc;
+  --desc-color: #444;
+  --toggle-bg: #ccc;
+  --toggle-slider: #fff;
+  --expo-in: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.dark {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --link-color: #66b3ff;
+  --desc-color: #aaa;
+  --toggle-bg: #4a4a4a;
+  --toggle-slider: #2196F3;
+}
+
+body {
+  font-family: monospace;
+  background: var(--bg-color);
+  color: var(--text-color);
+  padding: 2rem;
+  transition: background-color 0.3s, color 0.3s;
+  position: relative;
+}
+
+.entry {
+  margin: 0.5rem 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--link-color);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.desc {
+  color: var(--desc-color);
+}
+
+/* Theme Toggle Switch */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggle-label {
+  font-family: monospace;
+  font-size: 14px;
+  color: var(--text-color);
+  user-select: none;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--toggle-bg);
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--toggle-slider);
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* View Transition Animation */
+::view-transition-group(root) {
+  animation-timing-function: var(--expo-in);
+}
+
+::view-transition-new(root) {
+  mask: url('https://media.tenor.com/cyORI7kwShQAAAAi/shigure-ui-dance.gif') center / 0 no-repeat;
+  animation: scale 2s;
+  animation-fill-mode: both;
+}
+
+::view-transition-old(root),
+.dark::view-transition-old(root) {
+  animation: scale 3s;
+  animation-fill-mode: both;
+}
+
+@keyframes scale {
+  0% {
+    mask-size: 0;
+  }
+  10% {
+    mask-size: 50vmax;
+  }
+  90% {
+    mask-size: 50vmax;
+  }
+  100% {
+    mask-size: 2000vmax;
+  }
+}
