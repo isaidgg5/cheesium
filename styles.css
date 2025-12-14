@@ -44,10 +44,18 @@
 
 h1 {
     color: var(--ctp-lavender);
+    font-size: 48px;
+    margin-bottom: 10px;
 }
 
 p {
     color: var(--ctp-subtext1);
+}
+
+#game-count {
+    font-size: 18px;
+    color: var(--ctp-overlay1);
+    margin: 10px 0;
 }
 
 hr {
@@ -136,33 +144,76 @@ a:hover {
     color: var(--ctp-lavender);
 }
 
-div.polaroid {
-  margin-right:1%;
-  margin-left:1%;
-  margin-top:7%;
-  margin-bottom:7%;
-  background-color: var(--ctp-surface0);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25);
-  text-align: center;
-  border-radius: 45px;
-  border: 2px solid var(--ctp-surface2);
-  font-family: 'Onest', sans-serif;
-  display: inline-block;
-  transition: 0.5s;
+/* Games Grid Container */
+.games-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
+/* Game Card */
+.game-card {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: var(--ctp-surface0);
+    border: 2px solid var(--ctp-surface2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
 
-div.polaroid:hover{
-    transform:scale(1.3);
-    z-index: 2;
+.game-card:hover {
+    transform: translateY(-5px);
     border-color: var(--ctp-mauve);
-    box-shadow: 0 8px 16px 0 rgba(203, 166, 247, 0.3), 0 12px 30px 0 rgba(203, 166, 247, 0.2);
+    box-shadow: 0 8px 20px rgba(203, 166, 247, 0.3);
+}
+
+.game-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Game Title Overlay */
+.game-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(17, 17, 27, 0.95), transparent);
+    color: var(--ctp-text);
+    padding: 40px 15px 15px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.game-card:hover .game-title {
+    opacity: 1;
+}
+
+/* Section headers - hide by default in grid view */
+.section-divider {
+    display: none;
+}
+
+/* Legacy support for old structure */
+div.polaroid {
+  display: none;
 }
 
 .game {  
-    border-radius: 50px;
-    height:200px;
-    width:200px;
+    border-radius: 12px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
   
   @keyframes smooth-appear {
