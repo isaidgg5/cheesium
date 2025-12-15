@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Binding of Isaac | gays.studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        background-color: black;
+        overflow: hidden;
+      }
+
+      #container {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      ruffle-player {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    <script>
+      window.RufflePlayer = window.RufflePlayer || {};
+
+      window.addEventListener("DOMContentLoaded", () => {
+          let ruffle = window.RufflePlayer.newest();
+          let player = ruffle.createPlayer();
+          player.style.width = "100%";
+          player.style.height = "100%";
+
+          let container = document.getElementById("container");
+          container.appendChild(player);
+
+          player.load("https://encrypted-bytes.com/download/6fd89e0c444644633748566678154b34f9410d34ada6b4dd8b3481cac2b81e7b/72c88582e1f2966edd7768e8333d54bd/f249923c9ff9a4ef5bdcf6f71374a14db7e0feb0e36fdd91b5a75778be4785670e7cfdf94499642c9a06ae35273ee7a9fae07f670118af1f9934d1bed620019a69473f210ed40a4e158d852c73dc59f2/7bc4fcca278f325f586cb5b18a0f8ecc");
+      });
+    </script>
+  </body>
+</html>
