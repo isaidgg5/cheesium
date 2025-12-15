@@ -110,6 +110,7 @@ body {
     font-family:Onest;
     color: var(--ctp-text); 
     text-align: center;
+    cursor: url('comic.cur'), auto;
 }
   
 .logo {
