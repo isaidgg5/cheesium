@@ -205,6 +205,10 @@ a:hover {
     text-align: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.4;
 }
 
 .game-card:hover .game-title {
