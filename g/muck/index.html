@@ -4,12 +4,167 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | Muck</title>
-    <script src="Build/UnityLoader.js"></script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #1a1a1a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      #unityContainer {
+        width: 960px;
+        height: 600px;
+        display: none;
+      }
+
+      #loadingScreen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+
+      #loadingLabel {
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+      }
+
+      #progressBarContainer {
+        width: 400px;
+        height: 20px;
+        background-color: #333;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      #progressBar {
+        height: 100%;
+        width: 0%;
+        background-color: #4caf50;
+        border-radius: 10px;
+        transition: width 0.2s ease;
+      }
+
+      #progressText {
+        color: #aaaaaa;
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+      }
+    </style>
+
     <script>
-      UnityLoader.instantiate("unityContainer", "Build/build7thecharm.json");
+      function mergeFiles(fileParts, onProgress) {
+        return new Promise((resolve, reject) => {
+          let buffers = [];
+
+          function fetchPart(index) {
+            if (index >= fileParts.length) {
+              const totalLength = buffers.reduce((sum, buf) => sum + buf.byteLength, 0);
+              console.log(`Combined size for ${fileParts[0].split(".part")[0]}:`, totalLength);
+
+              const combined = new Uint8Array(totalLength);
+              let offset = 0;
+              for (const buf of buffers) {
+                combined.set(new Uint8Array(buf), offset);
+                offset += buf.byteLength;
+              }
+
+              const mergedBlob = new Blob([combined], { type: "application/octet-stream" });
+              resolve(mergedBlob);
+              return;
+            }
+
+            fetch(fileParts[index])
+              .then(resp => {
+                if (!resp.ok) throw new Error(`Failed to fetch ${fileParts[index]}`);
+                return resp.arrayBuffer();
+              })
+              .then(data => {
+                buffers.push(data);
+                if (onProgress) onProgress(index + 1, fileParts.length);
+                fetchPart(index + 1);
+              })
+              .catch(reject);
+          }
+
+          fetchPart(0);
+        });
+      }
+
+      function getParts(file, totalParts) {
+        let parts = [];
+        for (let i = 0; i < totalParts; i++) {
+          parts.push(`${file}.part${i}`);
+        }
+        return parts;
+      }
+
+      function setProgress(value, label) {
+        document.getElementById("progressBar").style.width = value + "%";
+        document.getElementById("progressText").textContent = label;
+      }
+
+      const dataParts = 9;
+
+      mergeFiles(getParts("Build/build7thecharm.data.unityweb", dataParts), (loaded, total) => {
+        const percent = Math.round((loaded / total) * 90); // reserve last 10% for Unity init
+        setProgress(percent, `Loading parts... (${loaded}/${total})`);
+      })
+        .then(dataBlob => {
+          const dataBlobUrl = URL.createObjectURL(dataBlob);
+
+          setProgress(95, "Initializing...");
+
+          const originalFetch = window.fetch;
+          window.fetch = async function(url, ...args) {
+            if (url.includes("build7thecharm.data.unityweb")) return originalFetch(dataBlobUrl, ...args);
+            return originalFetch(url, ...args);
+          };
+
+          const originalOpen = XMLHttpRequest.prototype.open;
+          XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+            if (url.includes("build7thecharm.data.unityweb")) url = dataBlobUrl;
+            return originalOpen.call(this, method, url, ...rest);
+          };
+
+          const script = document.createElement("script");
+          script.src = "Build/UnityLoader.js";
+          script.onload = function() {
+            setProgress(100, "Done!");
+            setTimeout(() => {
+              document.getElementById("loadingScreen").style.display = "none";
+              document.getElementById("unityContainer").style.display = "block";
+              UnityLoader.instantiate("unityContainer", "Build/build7thecharm.json");
+            }, 500);
+          };
+          document.body.appendChild(script);
+        })
+        .catch(err => {
+          console.error("Failed to merge parts:", err);
+          setProgress(0, "Error loading game. Check the console for details.");
+          document.getElementById("progressBar").style.backgroundColor = "#e53935";
+        });
     </script>
   </head>
   <body>
-    <div id="unityContainer" style="width: 960px; height: 600px; margin: auto"></div>
+    <div id="loadingScreen">
+      <div id="loadingLabel">loading :3</div>
+      <div id="progressBarContainer">
+        <div id="progressBar"></div>
+      </div>
+      <div id="progressText">Starting...</div>
+    </div>
+
+    <div id="unityContainer"></div>
   </body>
 </html>
