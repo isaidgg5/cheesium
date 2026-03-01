@@ -290,6 +290,7 @@ hr {
     }
   }
 body {
+  overflow-x: hidden;
   background-image: url("img/bg.jpg");
   background-repeat: no-repeat;
   background-position: absolute;
@@ -512,3 +513,35 @@ div.polaroid {
       min-width: 28px;
     }
   }
+
+/* Footer styles */
+.site-footer {
+  background-color: rgba(17,17,27,0.6);
+  color: #dcdcdc;
+  font-size: 20px;
+  border-top: 1px solid rgba(255,255,255,0.03);
+  padding: 18px 24px;
+}
+.site-footer .footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.site-footer .footer-left { flex: 1 }
+.site-footer .footer-right { display:flex; align-items:center; gap:12px }
+.footer-links { display:flex; gap:12px; flex-wrap:wrap; justify-content:center }
+.footer-links a { color: var(--ctp-text); text-decoration:none; opacity:0.85; font-size:16px }
+.footer-links a:hover { opacity:1; text-decoration:underline }
+.social-icons { display:flex; gap:10px; align-items:center }
+.social { color:#ddd; text-decoration:none; font-size:16px; opacity:0.9 }
+.social:hover { opacity:1 }
+.footer-copy { color:var(--ctp-text); font-size:16px }
+
+@media (max-width:700px) {
+  .site-footer .footer-inner { flex-direction:column; align-items:center; text-align:center }
+  .site-footer .footer-right { margin-top:8px }
+  .footer-copy { margin-top:6px }
+}
