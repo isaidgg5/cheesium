@@ -37,10 +37,121 @@
     font-family:OnestBold;
     src: url(fonts/bold.ttf);
     
-} 
- header {
-    padding-bottom: 10px;
- }
+}
+
+/* Navigation Bar Section*/
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 14px;
+  width: 100%;
+  background-color: rgba(17,17,27,0.6);
+  border-bottom: 1px solid var(--ctp-surface2);
+  box-sizing: border-box;
+  min-height: 56px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--ctp-text);
+}
+
+.brand-name {
+  font-family: OnestBold;
+  color: var(--ctp-lavender);
+  font-size: 30px;
+}
+
+.main-nav {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-list {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0 8px;
+  position: relative;
+}
+
+.nav-item a {
+  color: var(--ctp-subtext1);
+  text-decoration: none;
+  padding: 6px 8px;
+  font-size: 18px;
+  border-radius: 6px;
+  position: relative;
+  display: inline-block;
+  font-family: OnestBold, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  transition: color 0.18s ease, background 0.18s ease;
+}
+
+.nav-item a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  bottom: -6px;
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #ff7a18, #ff4e00);
+  transition: transform 180ms ease, opacity 180ms ease;
+  opacity: 0.95;
+}
+
+.nav-item a:hover::after {
+  transform: translateX(-50%) scaleX(0.8);
+}
+
+.nav-item a.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.nav-item a:hover,
+.nav-item a.active {
+  color: var(--ctp-text);
+  background: linear-gradient(90deg, rgba(138, 93, 255, 0.06), rgba(138, 93, 255, 0.02));
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-right #gsearchbar {
+  width: 220px;
+  border-radius: 16px;
+  padding: 8px 12px;
+}
+
+@media (max-width: 900px) {
+  .main-nav { order: 3; width: 100%; justify-content: center; }
+  .nav-list { gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .nav-right { order: 2; }
+  .brand { order: 1; }
+  .nav-right #gsearchbar { width: 160px; }
+}
 
 h1 {
     color: var(--ctp-lavender);
@@ -53,9 +164,82 @@ p {
     color: var(--ctp-subtext1);
 }
 
+section#navbar {
+  background-color: var(--ctp-surface1);
+  padding: 2px;
+}
+
+.nav {
+  display: flex;
+  color: var(--ctp-text);
+}
+
+.nav-one {
+  margin-left: 30px;
+}
+
+.list ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 12px;
+  align-items: center;
+}
+
+.button {
+  margin: 20px;
+  margin-left: 20px;
+  font-size: 20px;
+  background-color: var(--ctp-surface0);
+  border-radius: 70px;
+  padding: 10px 24px;
+  height: auto;
+}
+
+/* Navigation Bar Section End*/
 #game-count {
   font-size:24px;
-    margin: 10px 0;
+  margin: 10px 0;
+}
+
+.page-slogan {
+  max-width: 1400px;
+  margin: 20px auto 2px auto;
+  padding: 0 20px;
+  text-align: center;
+  color: var(--ctp-text);
+  font-size: 40px;
+  font-family: Onest;
+}
+
+/* Floating game count badge */
+.floating-badge {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  background: linear-gradient(180deg, rgba(255,122,24,0.14), rgba(255,78,0,0.08));
+  border: 1px solid rgba(255,78,0,0.12);
+  color: var(--ctp-text);
+  padding: 10px 14px;
+  border-radius: 24px;
+  font-family: OnestBold, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  font-size: 13px;
+  box-shadow: 0 6px 18px rgba(3,6,23,0.35);
+  z-index: 1200;
+  backdrop-filter: blur(6px) saturate(120%);
+}
+
+/* accessible hidden text utility */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+@media (max-width: 600px) {
+  .page-slogan { font-size: 13px; padding: 0 12px; }
 }
 
 hr {
@@ -65,15 +249,17 @@ hr {
 
 
 #gsearchbar {
-    outline: none;
-    width: 355px;
-    font-size: 16px;
-    border: 2px solid var(--ctp-surface2);
-    background-color: var(--ctp-surface0);
-    color: var(--ctp-text);
-    padding: 12px;
-    margin-bottom: 10px;
-    transition: 0.2s ease;
+  outline: none;
+  width: 220px;
+  max-width: 40vw;
+  font-size: 14px;
+  border: 2px solid var(--ctp-surface2);
+  background-color: var(--ctp-surface0);
+  color: var(--ctp-text);
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  transition: 0.2s ease;
+  box-sizing: border-box;
 }
 
 #gsearchbar:focus {
@@ -104,19 +290,20 @@ hr {
     }
   }
 body {
-    background-image: url("img/bg.jpg");
-    background-repeat: no-repeat;
-    background-position: absolute;
-    font-family:Onest;
-    color: var(--ctp-text); 
-    text-align: center;
-    cursor: url('comic.cur'), auto;
+  background-image: url("img/bg.jpg");
+  background-repeat: no-repeat;
+  background-position: absolute;
+  font-family:Onest;
+  color: var(--ctp-text); 
+  text-align: center;
+  cursor: url('comic.cur'), auto;
 }
   
 .logo {
-    height:200px;
-    width: 200px;
-    margin-bottom: 0;
+  height:64px;
+  width: auto;
+  max-width: 120px;
+  margin-bottom: 0;
 }
 
 a {

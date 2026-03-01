@@ -1,34 +1,38 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta lang="en">
-<meta charset="UTF-8">
-<title>Caesium | Home</title>
-<link rel="icon" type="image/x-icon" href="./img/cube-459.png">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="styles.css">
-</head>
-<body class="gradient-background">
-<header>
-<a href="./index.html">
-<img class="logo" src="./img/cube-459.png">
-</a>
-<h1>Caesium</h1>
-<p>welcome back, we're always lightweight & ad free.</p>
-<hr width="100%" color="white" />
-<div class="visit">
-<a href="./index.html">Home</a>
-</div>
-<p class="dot">•</p>
-<a href="./credits.html">Credits</a>
-<hr width="100%" color="white" />
-</header>
-<br>
-<h1 id="game-count">Showing all games!</h1>
-<br>
-<input type="text" id="gsearchbar" oninput="filterGames(this.value)" autocomplete="off" spellcheck="false" placeholder="Search games...">
+  <html>
+    <head>
+      <meta lang="en">
+      <meta charset="UTF-8">
+      <title>Caesium | Home</title>
+      <link rel="icon" type="image/x-icon" href="./img/cube-459.png">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="styles.css">
+    </head>
+    <body class="gradient-background">
+      <!-- NavBar -->
+        <header>
+          <div class="brand">
+            <a class="brand-link" href="./index.html">
+              <img class="logo" src="./img/cube-459.png" alt="Caesium logo">
+              <span class="brand-name">Caesium</span>
+            </a>
+          </div>
+          <nav class="main-nav">
+            <ul class="nav-list">
+              <li class="nav-item"><a href="./index.html" class="active">Home</a></li>
+              <li class="nav-item"><a href="./credits.html" class="active">Credits</a></li>
+            </ul>
+            <span class="nav-underline" aria-hidden="true"></span>
+          </nav>
+          <div class="nav-right">
+            <input id="gsearchbar" oninput="filterGames(this.value)" autocomplete="off" spellcheck="false" placeholder="Search games..." type="text">
+          </div>
+        </header>
+    <h1 id="game-count" class="visually-hidden">Showing all games!</h1>
 
-<br><br>
+    <div class="page-slogan">welcome back, we're always lightweight &amp; ad free.</div>
+
+    <br>
 
 <!-- Games Grid Container -->
 <div class="games-container">
@@ -133,11 +137,6 @@
   <div class="game-title">Duck Life 2</div>
 </a>
 
-  <!-- Deltarune Section -->
-  <a href="/g/deltarune/" target="_blank" class="game-card" data-name="Deltarune">
-    <img src="./img/games/deltarune.jpg" alt="Deltarune">
-    <div class="game-title">Deltarune</div>
-  </a>
 <a href="/g/flash/duck-life3/" target="_blank" class="game-card" data-name="Duck Life 3">
   <img src="./img/games/duck3.webp" alt="Duck Life 3">
   <div class="game-title">Duck Life 3</div>
@@ -345,11 +344,6 @@
   <div class="game-title">Super Mario 63</div>
 </a>
 
-<a href="/g/sm64fps/" target="_blank" class="game-card fit-contain" data-name="Super Mario 64 FPS">
-  <img src="./img/games/sm64fps.png" alt="Super Mario 64 FPS">
-  <div class="game-title">Super Mario 64 FPS</div>
-</a>
-
 <a href="/g/flash/smb-crossover" target="_blank" class="game-card fit-contain" data-name="Super Mario Crossover">
   <img src="./img/games/sm-crossover.png" alt="Super Mario Crossover">
   <div class="game-title">Super Mario Crossover</div>
@@ -420,15 +414,11 @@
   <div class="game-title">Sushi Cat</div>
 </a>
 
-  <a href="/g/slime-ranchers/" target="_blank" class="game-card" data-name="Slime Ranchers">
-    <img src="./img/games/slime.webp" alt="Slime Ranchers">
-    <div class="game-title">Slime Ranchers</div>
-  </a>
-
 <a href="/g/open-syobon-action" target="_blank" class="game-card" data-name="Syobon Action">
   <img src="./img/games/syobon.png" alt="Syobon Action">
   <div class="game-title">Syobon Action</div>
 </a>
+
 <!-- T Section -->
 <a href="/g/tattletail" target="_blank" class="game-card" data-name="Tattletail">
   <img src="./img/games/tat.webp" alt="Tattletail">
@@ -491,6 +481,7 @@
   <img src="./img/games/web.webp" alt="Webfishing">
   <div class="game-title">Webfishing</div>
 </a>
+
 </div>
 <!-- End Games Container -->
 
@@ -510,16 +501,26 @@ function filterGames(searchTerm) {
     }
   });
   
-  document.getElementById('game-count').textContent = search ? 
-    `Showing ${visibleCount} games` : `Showing all ${cards.length} games!`;
+  const text = search ? `Showing ${visibleCount} games` : `Showing all ${cards.length} games!`;
+  const el = document.getElementById('game-count');
+  if (el) el.textContent = text;
+  const badge = document.getElementById('game-count-badge');
+  if (badge) badge.textContent = text;
 }
 
 // Initialize count
 document.addEventListener('DOMContentLoaded', () => {
   const total = document.querySelectorAll('.game-card').length;
-  document.getElementById('game-count').textContent = `Showing all ${total} games!`;
+  const text = `Showing all ${total} games!`;
+  const el = document.getElementById('game-count');
+  if (el) el.textContent = text;
+  const badge = document.getElementById('game-count-badge');
+  if (badge) badge.textContent = text;
 });
 </script>
+
+  <!-- Floating results badge -->
+  <div id="game-count-badge" class="floating-badge" aria-hidden="false">Showing all games!</div>
 
 <br>
 <br>
