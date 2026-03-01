@@ -488,19 +488,32 @@
 <script>
 function filterGames(searchTerm) {
   const cards = document.querySelectorAll('.game-card');
-  const search = searchTerm.trim().toUpperCase();
+  const search = (searchTerm || '').trim().toUpperCase();
   let visibleCount = 0;
-  
+
   cards.forEach(card => {
-    const gameName = card.getAttribute('data-name').toUpperCase();
-    if (gameName.includes(search)) {
-      card.style.display = 'block';
+    const attr = card.getAttribute('data-name');
+    const titleEl = card.querySelector('.game-title');
+    const rawName = attr || (titleEl && titleEl.textContent) || '';
+    const gameName = rawName.toUpperCase();
+
+    let match = false;
+    if (!search) {
+      match = true;
+    } else if (search.length === 1) {
+      match = gameName.startsWith(search);
+    } else {
+      match = gameName.includes(search);
+    }
+
+    if (match) {
+      card.style.display = '';
       visibleCount++;
     } else {
       card.style.display = 'none';
     }
   });
-  
+
   const text = search ? `Showing ${visibleCount} games` : `Showing all ${cards.length} games!`;
   const el = document.getElementById('game-count');
   if (el) el.textContent = text;
