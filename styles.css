@@ -325,3 +325,82 @@ div.polaroid {
       min-width: 28px;
     }
   }
+
+/* Request Form Styles */
+.request-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: var(--ctp-surface0);
+  border: 2px solid var(--ctp-surface2);
+  border-radius: 12px;
+  text-align: left;
+}
+
+.request-form label {
+  display: block;
+  color: var(--ctp-text);
+  font-size: 16px;
+  margin-bottom: 8px;
+  margin-top: 20px;
+}
+
+.request-form label:first-child {
+  margin-top: 0;
+}
+
+.request-form input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-family: Onest;
+  border: 2px solid var(--ctp-surface2);
+  background-color: var(--ctp-mantle);
+  color: var(--ctp-text);
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s ease;
+  box-sizing: border-box;
+}
+
+.request-form input:focus {
+  background-color: var(--ctp-surface1);
+  border-color: var(--ctp-mauve);
+  box-shadow: 0 0 0 3px rgba(203, 166, 247, 0.2);
+}
+
+.request-form input::placeholder {
+  color: var(--ctp-overlay0);
+}
+
+.request-form button {
+  margin-top: 30px;
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  font-family: OnestBold;
+  background-color: var(--ctp-mauve);
+  color: var(--ctp-crust);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.request-form button:hover {
+  background-color: var(--ctp-lavender);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(203, 166, 247, 0.4);
+}
+
+.request-form button:disabled {
+  background-color: var(--ctp-overlay0);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.optional-hint {
+  color: var(--ctp-overlay1);
+  font-size: 14px;
+}

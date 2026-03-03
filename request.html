@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Caesium ~ game requests </title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Request music to be added to Caesium" />
+  <link rel="icon" type="image/x-icon" href="./img/cube-459.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="gradient-background">
+<header>
+  <a href="./index.html">
+    <img class="logo" src="./img/cube-459.png">
+  </a>
+  <h1>game request</h1>
+  <p>Recommend some games to be ported on the site</p>
+  <hr width="100%" color="white" />
+  <div class="visit">
+    <a href="./index.html">Home</a>
+    <p class="dot">•</p>
+  <a href="./credits.html">Credits</a>
+  <p class="dot">•</p>
+<a href="./request.html">request form</a>
+  </div>
+  
+  <hr width="100%" color="white" />
+</header>
+
+<br>
+
+<div class="request-form">
+  <form>
+    <label for="playlistname">Game Name</label>
+    <input id="playlistname" name="playlistname" placeholder="Muck">
+
+    <label for="playlist">Game Engine</label>
+    <input id="playlist" name="playlist" placeholder="Unity">
+
+    <label for="desc">Game Link <span class="optional-hint">(what you want the about to say)</span></label>
+    <input id="desc" name="desc" placeholder="https://store.steampowered.com/app/1625450/Muck/">
+
+    <label for="image">Size</label>
+    <input id="image" name="image" placeholder="500MB">
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<!-- THIS IS VIBE CODED!!!! JUST THE SCRIPT BELOW-->
+<script>
+(function () {
+  const WEBHOOK_URL = 'https://discord.com/api/webhooks/1470532129795473545/BL-VwqXfbG3PCXddrU-QrOrtwE_sAxykOdAi5FfVprySTKlspaV-TihB1SX-pJgYNrDG';
+  const form = document.querySelector('form');
+  if (!form) {
+    return;
+  }
+
+  const submitButton = form.querySelector('button[type="submit"]');
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const playlistName = (formData.get('playlistname') || '').trim();
+    const playlistLink = (formData.get('playlist') || '').trim();
+    const description = (formData.get('desc') || '').trim();
+    const image = (formData.get('image') || '').trim();
+
+    const contentLines = [
+      'New submission received!',
+      `**Playlist Name:** ${playlistName || 'N/A'}`,
+      `**Playlist Link:** ${playlistLink || 'N/A'}`,
+      `**Description:** ${description || 'N/A'}`,
+      `**Image:** ${image || 'N/A'}`
+    ];
+
+    try {
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'sending...';
+      }
+
+      const response = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: contentLines.join('\n') })
+      });
+
+      if (!response.ok) {
+        throw new Error('Request failed');
+      }
+
+      alert('Thanks! Your playlist request was sent.');
+      form.reset();
+    } catch (error) {
+      alert('Something went wrong. Please try again.');
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = 'submit';
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
