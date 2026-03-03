@@ -50,36 +50,29 @@
 <!-- THIS IS VIBE CODED!!!! JUST THE SCRIPT BELOW-->
 <script>
 (function () {
-  console.log('Script loaded');
   const WEBHOOK_URL = 'https://discord.com/api/webhooks/1478474453049544907/jrOtbh7uUr9XhwnawP-gNMZrhTq-bGMDs1HoHOs2t-bnK_Ko_fh6jZVC8Kzyln48AhUH';
   const form = document.querySelector('form');
   if (!form) {
-    console.error('Form not found');
     return;
   }
-  console.log('Form found');
 
   const submitButton = form.querySelector('button[type="submit"]');
-  console.log('Submit button:', submitButton);
 
   form.addEventListener('submit', async (event) => {
-    console.log('Form submitted');
     event.preventDefault();
 
     const formData = new FormData(form);
-    const playlistName = (formData.get('playlistname') || '').trim();
-    const playlistLink = (formData.get('playlist') || '').trim();
-    const description = (formData.get('desc') || '').trim();
-    const image = (formData.get('image') || '').trim();
-
-    console.log('Form data:', { playlistName, playlistLink, description, image });
+    const gameName = (formData.get('playlistname') || '').trim();
+    const gameEngine = (formData.get('playlist') || '').trim();
+    const gameLink = (formData.get('desc') || '').trim();
+    const size = (formData.get('image') || '').trim();
 
     const contentLines = [
-      'New submission received!',
-      `**Playlist Name:** ${playlistName || 'N/A'}`,
-      `**Playlist Link:** ${playlistLink || 'N/A'}`,
-      `**Description:** ${description || 'N/A'}`,
-      `**Image:** ${image || 'N/A'}`
+      'New game request received!',
+      `**Game Name:** ${gameName || 'N/A'}`,
+      `**Game Engine:** ${gameEngine || 'N/A'}`,
+      `**Game Link:** ${gameLink || 'N/A'}`,
+      `**Size:** ${size || 'N/A'}`
     ];
 
     try {
@@ -88,14 +81,12 @@
         submitButton.textContent = 'sending...';
       }
 
-      console.log('Sending to webhook...');
       const response = await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: contentLines.join('\n') })
       });
 
-      console.log('Response status:', response.status);
       if (!response.ok) {
         throw new Error('Request failed');
       }
@@ -103,7 +94,6 @@
       alert('Thanks! Your request was sent :3');
       form.reset();
     } catch (error) {
-      console.error('Error:', error);
       alert('Something went wrong. Please try again.');
     } finally {
       if (submitButton) {
