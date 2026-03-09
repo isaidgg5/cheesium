@@ -137,41 +137,36 @@ body {
 
     function getParts(file, totalParts) {
       let parts = [];
-      for (let i = 1; i <= totalParts; i++) {
+      for (let i = 0; i < totalParts; i++) {
         parts.push(`${file}.part${i}`);
       }
       return parts;
     }
 
-    const unxParts = 7;
-    const dataParts = 2;
+    const pckParts = 13;
+    const wasmParts = 2;
 
-    mergeFiles(getParts("game.unx", unxParts))
-      .then(gameBlob => {
-        const gameBlobUrl = URL.createObjectURL(gameBlob);
+    Promise.all([
+      mergeFiles(getParts("index.pck", pckParts)),
+      mergeFiles(getParts("index.wasm", wasmParts)),
+    ])
+      .then(([pckBlob, wasmBlob]) => {
+        const pckBlobUrl = URL.createObjectURL(pckBlob);
+        const wasmBlobUrl = URL.createObjectURL(wasmBlob);
 
-        return mergeFiles(getParts("runner.data", dataParts))
-          .then(dataBlob => {
-            const dataBlobUrl = URL.createObjectURL(dataBlob);
+        const originalFetch = window.fetch;
+        window.fetch = async function(url, ...args) {
+          if (typeof url === "string" && url.endsWith("index.pck")) return originalFetch(pckBlobUrl, ...args);
+          if (typeof url === "string" && url.endsWith("index.wasm")) return originalFetch(wasmBlobUrl, ...args);
+          return originalFetch(url, ...args);
+        };
 
-            const originalFetch = window.fetch;
-            window.fetch = async function(url, ...args) {
-              if (url.endsWith("game.unx")) return originalFetch(gameBlobUrl, ...args);
-              if (url.endsWith("runner.data")) return originalFetch(dataBlobUrl, ...args);
-              return originalFetch(url, ...args);
-            };
-
-            const originalOpen = XMLHttpRequest.prototype.open;
-            XMLHttpRequest.prototype.open = function(method, url, ...rest) {
-              if (url.includes("game.unx")) url = gameBlobUrl;
-              if (url.includes("runner.data")) url = dataBlobUrl;
-              return originalOpen.call(this, method, url, ...rest);
-            };
-
-            const script = document.createElement("script");
-            script.src = "runner.js";
-            document.body.appendChild(script);
-          });
+        const originalOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+          if (typeof url === "string" && url.includes("index.pck")) url = pckBlobUrl;
+          if (typeof url === "string" && url.includes("index.wasm")) url = wasmBlobUrl;
+          return originalOpen.call(this, method, url, ...rest);
+        };
       })
       .catch(err => console.error("Failed to merge parts:", err));
     </script>
