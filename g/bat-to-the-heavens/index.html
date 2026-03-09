@@ -167,12 +167,17 @@ body {
           if (typeof url === "string" && url.includes("index.wasm")) url = wasmBlobUrl;
           return originalOpen.call(this, method, url, ...rest);
         };
-      })
-      .catch(err => console.error("Failed to merge parts:", err));
-    </script>
 
-		<script src="index.js"></script>
-		<script>
+        // Load index.js only after interceptors are in place
+        return new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          script.src = "index.js";
+          script.onload = resolve;
+          script.onerror = reject;
+          document.body.appendChild(script);
+        });
+      })
+      .then(() => {
 const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":270575744,"index.wasm":35376909},"focusCanvas":true,"gdextensionLibs":[]};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
@@ -269,7 +274,9 @@ const engine = new Engine(GODOT_CONFIG);
 		}, displayFailureNotice);
 	}
 }());
-		</script>
+      })
+      .catch(err => console.error("Failed to merge parts:", err));
+    </script>
 	</body>
 </html>
 
