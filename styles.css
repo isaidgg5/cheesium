@@ -3,7 +3,15 @@
     --ctp-rosewater: #f5e0dc;
     --ctp-flamingo: #f2cdcd;
     --ctp-pink: #f5c2e7;
-    --ctp-mauve: #cba6f7;
+
+    /* 🍀 ST. PATRICK'S DAY — commented out purples, restored tomorrow */
+    /* --ctp-mauve: #cba6f7; */
+    /* --ctp-lavender: #b4befe; */
+
+    /* 🍀 Green replacements for mauve & lavender */
+    --ctp-mauve: #00da6d;
+    --ctp-lavender: #00954b;
+
     --ctp-red: #f38ba8;
     --ctp-maroon: #eba0ac;
     --ctp-peach: #fab387;
@@ -13,7 +21,6 @@
     --ctp-sky: #89dceb;
     --ctp-sapphire: #74c7ec;
     --ctp-blue: #89b4fa;
-    --ctp-lavender: #b4befe;
     --ctp-text: #cdd6f4;
     --ctp-subtext1: #bac2de;
     --ctp-subtext0: #a6adc8;
@@ -23,9 +30,14 @@
     --ctp-surface2: #585b70;
     --ctp-surface1: #45475a;
     --ctp-surface0: #313244;
-    --ctp-base: #1e1e2e;
-    --ctp-mantle: #181825;
-    --ctp-crust: #11111b;
+
+    /* 🍀 Background layers replaced with deep greens */
+    /* --ctp-base: #1e1e2e; */
+    /* --ctp-mantle: #181825; */
+    /* --ctp-crust: #11111b; */
+    --ctp-base: #0a1f12;
+    --ctp-mantle: #071510;
+    --ctp-crust: #040d09;
 }
 
 @font-face {
@@ -43,7 +55,8 @@
  }
 
 h1 {
-    color: var(--ctp-lavender);
+    /* Was --ctp-lavender (purple), now bright green */
+    color: var(--ctp-mauve);
     font-size: 48px;
     margin-bottom: 10px;
     margin-top: 0;
@@ -79,7 +92,8 @@ hr {
 #gsearchbar:focus {
     background-color: var(--ctp-surface1);
     border-color: var(--ctp-mauve);
-    box-shadow: 0 0 0 3px rgba(203, 166, 247, 0.2);
+    /* 🍀 Was purple glow, now green glow */
+    box-shadow: 0 0 0 3px rgba(0, 218, 109, 0.2);
 }
 
 #gsearchbar::placeholder {
@@ -87,7 +101,8 @@ hr {
 }
 
  .gradient-background {
-    background: linear-gradient(300deg, var(--ctp-crust), var(--ctp-mantle), var(--ctp-base), var(--ctp-surface0), var(--ctp-surface1), var(--ctp-surface0), var(--ctp-base), var(--ctp-mantle));
+    /* 🍀 Animated gradient now cycles through deep greens */
+    background: linear-gradient(300deg, var(--ctp-crust), var(--ctp-mantle), var(--ctp-base), #0d2b18, #112e1a, #0d2b18, var(--ctp-base), var(--ctp-mantle));
     background-size: 480% 480%;
     animation: gradient-animation 80s ease infinite;
   }
@@ -128,6 +143,7 @@ a {
 }
 
 a:hover {
+    /* 🍀 Was --ctp-mauve (purple), now bright green */
     color: var(--ctp-mauve);
 }
 
@@ -172,8 +188,9 @@ a:hover {
 
 .game-card:hover {
     transform: translateY(-5px);
+    /* 🍀 Was purple border/glow, now green */
     border-color: var(--ctp-mauve);
-    box-shadow: 0 8px 20px rgba(203, 166, 247, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 218, 109, 0.3);
 }
 
 .game-card img {
@@ -197,7 +214,7 @@ a:hover {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(17, 17, 27, 0.95), transparent);
+    background: linear-gradient(to top, rgba(4, 13, 9, 0.95), transparent);
     color: var(--ctp-text);
     padding: 40px 15px 15px;
     font-size: 16px;
@@ -284,6 +301,7 @@ div.polaroid {
   }
 
   .alphabet-nav::-webkit-scrollbar-thumb {
+    /* 🍀 Was purple, now green */
     background-color: var(--ctp-mauve);
     border-radius: 3px;
   }
@@ -301,6 +319,7 @@ div.polaroid {
   }
 
   .alphabet-nav a:hover {
+    /* 🍀 Was purple background, now bright green */
     background-color: var(--ctp-mauve);
     transform: scale(1.1);
     color: var(--ctp-crust);
@@ -366,7 +385,8 @@ div.polaroid {
 .request-form input:focus {
   background-color: var(--ctp-surface1);
   border-color: var(--ctp-mauve);
-  box-shadow: 0 0 0 3px rgba(203, 166, 247, 0.2);
+  /* 🍀 Was purple glow, now green */
+  box-shadow: 0 0 0 3px rgba(0, 218, 109, 0.2);
 }
 
 .request-form input::placeholder {
@@ -379,6 +399,7 @@ div.polaroid {
   padding: 14px;
   font-size: 18px;
   font-family: OnestBold;
+  /* 🍀 Was --ctp-mauve (purple), now bright green */
   background-color: var(--ctp-mauve);
   color: var(--ctp-crust);
   border: none;
@@ -388,9 +409,11 @@ div.polaroid {
 }
 
 .request-form button:hover {
+  /* 🍀 Was --ctp-lavender (light purple), now dark green */
   background-color: var(--ctp-lavender);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(203, 166, 247, 0.4);
+  /* 🍀 Green glow on hover */
+  box-shadow: 0 4px 12px rgba(0, 218, 109, 0.4);
 }
 
 .request-form button:disabled {
