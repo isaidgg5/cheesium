@@ -171,18 +171,22 @@
     setStatus('status-pck', 'merging... 0/' + pckParts);
     setStatus('status-wasm', 'merging... 0/' + wasmParts);
 
-    Promise.all([
-        mergeFiles(getParts("index.pck", pckParts), (done, total) => {
-            setStatus('status-pck', `merging... ${done}/${total}`);
-        }),
-        mergeFiles(getParts("index.wasm", wasmParts), (done, total) => {
-            setStatus('status-wasm', `merging... ${done}/${total}`);
-        })
-    ])
-    .then(([pckBlob, wasmBlob]) => {
-        setStatus('status-pck', 'done', true);
-        setStatus('status-wasm', 'done', true);
+    const pckPromise = mergeFiles(getParts("index.pck", pckParts), (done, total) => {
+        setStatus('status-pck', `merging... ${done}/${total}`);
+    }).then(blob => {
+        setStatus('status-pck', 'done ✓', true);
+        return blob;
+    });
 
+    const wasmPromise = mergeFiles(getParts("index.wasm", wasmParts), (done, total) => {
+        setStatus('status-wasm', `merging... ${done}/${total}`);
+    }).then(blob => {
+        setStatus('status-wasm', 'done ✓', true);
+        return blob;
+    });
+
+    Promise.all([pckPromise, wasmPromise])
+    .then(([pckBlob, wasmBlob]) => {
         const pckBlobUrl = URL.createObjectURL(pckBlob);
         const wasmBlobUrl = URL.createObjectURL(wasmBlob);
 
@@ -246,7 +250,6 @@
                 displayFailureNotice('Error\nThe following features required to run Godot projects on the Web are missing:\n' + missing.join('\n'));
             }
         } else {
-            // Hide loader, show canvas, start game
             document.getElementById('loader-screen').style.display = 'none';
             document.getElementById('canvas').style.display = 'block';
 
