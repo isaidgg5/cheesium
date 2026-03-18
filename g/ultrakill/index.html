@@ -78,7 +78,7 @@
 
     <canvas id="unity-canvas" tabindex="-1"></canvas>
     <script src="Build/ultrakill.loader.js"></script>
-    <script>
+   <script>
         var canvas = document.querySelector("#unity-canvas");
 
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -155,18 +155,20 @@
         const dataParts = 4;
         const wasmParts = 2;
 
-        setStatus('status-data', 'merging... 0/' + dataParts);
-        setStatus('status-wasm', 'merging... 0/' + wasmParts);
+        setStatus('status-data', 'merging... 0% (0/' + dataParts + ')');
+        setStatus('status-wasm', 'merging... 0% (0/' + wasmParts + ')');
 
         const dataPromise = mergeFiles(getParts("Build/ultrakill.data.unityweb", 1, dataParts), (done, total) => {
-            setStatus('status-data', `merging... ${done}/${total}`);
+            const pct = Math.round((done / total) * 100);
+            setStatus('status-data', `merging... ${pct}% (${done}/${total})`);
         }).then(blob => {
             setStatus('status-data', 'done ✓', true);
             return blob;
         });
 
         const wasmPromise = mergeFiles(getParts("Build/ultrakill.wasm.unityweb", 1, wasmParts), (done, total) => {
-            setStatus('status-wasm', `merging... ${done}/${total}`);
+            const pct = Math.round((done / total) * 100);
+            setStatus('status-wasm', `merging... ${pct}% (${done}/${total})`);
         }).then(blob => {
             setStatus('status-wasm', 'done ✓', true);
             return blob;
