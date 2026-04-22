@@ -1,4 +1,4 @@
-const brokie = "https://recollectsideway.com/u51ydi5ybu?key=3b96cebdf6fcc47e6e2cf07f0034c04c"
+const brokie = "https://recollectsideway.com/i7dd7ruzr?key=e370275100340ce26eafdcb83fe93826"
 const key = "hasOpenedTab";
 document.addEventListener("DOMContentLoaded", () => {
   if (sessionStorage.getItem(key)) return;
