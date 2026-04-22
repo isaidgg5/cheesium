@@ -100,5 +100,6 @@
   { "name": "Undertale", "id": "undertale", "flash": false, "img": "" },
   { "name": "Undertale Yellow", "id": "undertale-yellow", "flash": false, "img": "./img/games/udy.webp" },
   { "name": "Untitled Goose Game", "id": "untitledgg", "flash": false, "img": "./img/games/untitled.webp" },
+  {  "name": "Jeffrey Epstein's Basics In Education And Kidnapping", "id": "jeffbb", "flash": false, "img": "./img/games/jeffbb.png" },
   { "name": "Webfishing", "id": "webfishing", "flash": false, "img": "./img/games/web.webp", "url": "https://isaidwebfishing.pages.dev" }
 ]
