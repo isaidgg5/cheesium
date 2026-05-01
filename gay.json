@@ -102,5 +102,6 @@
   { "name": "Untitled Goose Game", "id": "untitledgg", "flash": false, "img": "./img/games/untitled.webp" },
   { "name": "Raldi's Crackhouse", "id": "raldi", "flash": false, "img": "./img/games/raldi.png" },
   {  "name": "Jeffrey Epstein's Basics In Education And Kidnapping", "id": "jeffbb", "flash": false, "img": "./img/games/jeffbb.png" },
-  { "name": "Webfishing", "id": "webfishing", "flash": false, "img": "./img/games/web.webp", "url": "https://isaidwebfishing.pages.dev" }
+  { "name": "Webfishing", "id": "webfishing", "flash": false, "img": "./img/games/web.webp", "url": "https://isaidwebfishing.pages.dev" },
+  { "name": "Upload Labs", "id": "upload-labs", "flash": false, "img": "./img/games/upload-labs.png" }
 ]
