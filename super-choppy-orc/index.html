@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>ChoppyOrc</title>
+
+    <!-- All margins and padding must be zero for the canvas to fill the screen. -->
+	<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		html, body {
+			background: #000;
+			color: #fff;
+			overflow: hidden;
+			touch-action-delay: none;
+			touch-action: none;
+			-ms-touch-action: none;
+		}
+		canvas {
+			touch-action-delay: none;
+			touch-action: none;
+			-ms-touch-action: none;
+		}
+    </style>
+	
+
+</head> 
+ 
+<body>
+<script>
+    window.require = function(m) {
+        if (m === "path") return { dirname: function() { return ""; } };
+        if (m === "fs") return { existsSync: function() { return false; }, readFile: function(p,o,cb) { cb(new Error("no fs")); } };
+        return {};
+    };
+    window.nw = { process: { versions: {}, execPath: "" }, require: window.require };
+    window.process = { versions: {}, execPath: "" };
+    window.c2nodewebkit = false;
+    window["c2nodewebkit"] = false;
+
+    var _nwWin = {
+        show: function(){},
+        on: function(){},
+        enterFullscreen: function(){ try { document.documentElement.requestFullscreen(); } catch(e){} },
+        leaveFullscreen: function(){ try { document.exitFullscreen(); } catch(e){} },
+        toggleFullscreen: function(){ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); },
+        isFullscreen: false,
+        width: window.innerWidth,
+        height: window.innerHeight
+    };
+    window["nwgui"] = {
+        Window: { get: function() { return _nwWin; } },
+        App: { quit: function() { window.close(); } }
+    };
+</script>
+
+<script src="watermerk.js"></script>
+
+	<div id="fb-root"></div>
+	
+	<!-- The canvas must be inside a div called c2canvasdiv -->
+	<div id="c2canvasdiv">
+	
+		<!-- The canvas the project will render to.  If you change its ID, don't forget to change the
+		ID the runtime looks for in the jQuery events above (ready() and cr_sizeCanvas()). -->
+		<canvas id="c2canvas" width="384" height="216"></canvas>
+		
+	</div>
+	
+	<!-- For node-webkit to show file dialogs -->
+	<input style="display:none;" id="c2nwOpenFileDialog" type="file" />
+	<input style="display:none;" id="c2nwChooseFolderDialog" type="file" nwdirectory />
+	<input style="display:none;" id="c2nwSaveDialog" type="file" nwsaveas />
+	
+	<!-- Pages load faster with scripts at the bottom -->
+	
+	<!-- Construct 2 exported games require jQuery. -->
+	<script src="jquery-2.1.1.min.js"></script>
+
+
+	
+    <!-- The runtime script.  You can rename it, but don't forget to rename the reference here as well.
+    This file will have been minified and obfuscated if you enabled "Minify script" during export. -->
+	<script src="c2runtime.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        cr_createRuntime("c2canvas");
+    });
+
+    function onVisibilityChanged() {
+        if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
+            cr_setSuspended(true);
+        else
+            cr_setSuspended(false);
+    };
+    document.addEventListener("visibilitychange", onVisibilityChanged, false);
+    document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
+    document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
+    document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
+</script>
+    
+</body> 
+</html> 
