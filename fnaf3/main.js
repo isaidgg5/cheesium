@@ -100,40 +100,29 @@ async function wedone() {
 
 const originalFetch = window.fetch;
 
-function mergeFiles(fileParts) {
-  return new Promise((resolve, reject) => {
-      let buffers = [];
-      let totalSize = 0;
-      let loadedSize = 0;
-      Promise.all(fileParts.map(part =>
-          fetch(part, { method: 'HEAD' }).then(res => {
-              if (!res.ok) throw new Error("Missing part: " + part);
-              return parseInt(res.headers.get("Content-Length") || "0", 10);
-          })
-      )).then(sizes => {
-          totalSize = sizes.reduce((a, b) => a + b, 0);
-          function fetchPart(index) {
-              if (index >= fileParts.length) {
-                  let mergedBlob = new Blob(buffers);
-                  let mergedFileUrl = URL.createObjectURL(mergedBlob);
-                  resolve(mergedFileUrl);
-                  return;
-              }
+async function mergeFiles(fileParts) {
+    const responses = await Promise.all(fileParts.map(part => fetch(part)));
+    const totalSize = responses.reduce(
+        (sum, response) => sum + parseInt(response.headers.get("Content-Length") || "0", 10),
+        0
+    );
 
-              fetch(fileParts[index]).then((response) => {
-                  if (!response.ok) throw new Error("Missing part: " + fileParts[index]);
-                  return response.arrayBuffer();
-              }).then((data) => {
-                  buffers.push(data);
-                  loadedSize += data.byteLength;
-                  updateProgress('download', Math.floor((loadedSize / totalSize) * 100));
-                  fetchPart(index + 1);
-              }).catch(reject);
-          }
+    const buffers = [];
+    let loadedSize = 0;
 
-          fetchPart(0);
-      }).catch(reject);
-  });
+    for (let i = 0; i < responses.length; i++) {
+        const data = await responses[i].arrayBuffer();
+        buffers.push(data);
+        loadedSize += data.byteLength;
+        updateProgress(
+            'download',
+            totalSize > 0
+                ? Math.floor((loadedSize / totalSize) * 100)
+                : Math.floor(((i + 1) / responses.length) * 100)
+        );
+    }
+
+    return URL.createObjectURL(new Blob(buffers));
 }
 
 function getParts(file, start, end) {
