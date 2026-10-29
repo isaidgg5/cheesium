@@ -88,68 +88,12 @@
   </div>
 
   <script>
-    const totalParts = 17;
-    const partBaseName = 'game.zip.part';
-
-    async function loadSplitGameZip() {
-        const statusText = document.getElementById('statusTextDiv');
-        const statusProgress = document.getElementById('statusProgress');
-        const statusDiv = document.getElementById('statusDiv');
-        const presplash = document.getElementById('presplash');
-
-        try {
-            statusProgress.max = totalParts;
-            let downloadedCount = 0;
-
-            const downloadPromises = Array.from({ length: totalParts }, async (_, i) => {
-                const response = await fetch(`${partBaseName}${i}`);
-                if (!response.ok) throw new Error(`Missing: ${partBaseName}${i}`);
-                
-                const buffer = await response.arrayBuffer();
-                downloadedCount++;
-                
-                statusProgress.value = downloadedCount;
-                statusText.innerText = `Downloading Data: ${downloadedCount} / ${totalParts}`;
-                
-                return { index: i, buffer };
-            });
-
-            const results = await Promise.all(downloadPromises);
-            results.sort((a, b) => a.index - b.index);
-            
-            statusText.innerText = "Reassembling assets...";
-            const combinedBlob = new Blob(results.map(r => r.buffer), { type: 'application/zip' });
-            window.gameZipURL = URL.createObjectURL(combinedBlob);
-            
-            statusText.innerText = "Starting engine...";
-
-            // Load renpy.js dynamically
-            const script = document.createElement('script');
-            script.src = "renpy.js";
-            script.async = true;
-            document.body.appendChild(script);
-
-            // Hide loading UI once game starts
-            const checkReady = setInterval(() => {
-                if (window.RENPY_START_TIME) {
-                    statusDiv.classList.add('hidden');
-                    presplash.classList.add('hidden');
-                    clearInterval(checkReady);
-                }
-            }, 500);
-
-        } catch (e) {
-            statusText.innerHTML = `<span style="color:#F5A9B8">Error: ${e.message}</span>`;
-        }
-    }
-
     if (navigator.serviceWorker && !navigator.serviceWorker.controller) {
         navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'all' });
     }
-
-    window.addEventListener('load', loadSplitGameZip);
   </script>
 
   <script src="renpy-pre.js"></script>
+  <script src="renpy.js"></script>
 </body>
 </html>

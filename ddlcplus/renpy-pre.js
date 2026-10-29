@@ -318,12 +318,18 @@ Module.preRun = Module.preRun || [ ];
     let dataPrompt = false;
     let gameZipPrompt = false;
 
+    const gameZipPartBaseName = "game.zip.part";
+    const gameZipPartCount = 17;
+    const gameZipCacheName = "game.zip.parts.v1";
+
+    let gameZipStarted = false;
+
     function updateDownloadProgress() {
         if (dataSize == 0) {
             return;
         }
 
-        if (dataDownloaded < dataSize || gameZipSize == 0) {
+        if (dataDownloaded < dataSize || !gameZipStarted) {
             if (!dataPrompt) {
                 printMessage("");
                 printMessage("Downloading engine...");
@@ -358,37 +364,70 @@ Module.preRun = Module.preRun || [ ];
         console.log(s);
     }
 
+    async function getGameZipPart(partName) {
+        if (typeof caches === 'undefined') {
+            return { response: await fetch(partName), cachePromise: null };
+        }
+
+        try {
+            const cache = await caches.open(gameZipCacheName);
+            const cached = await cache.match(partName);
+
+            if (cached) {
+                return { response: cached, cachePromise: null };
+            }
+
+            const response = await fetch(partName);
+            const cachePromise = cache.put(partName, response.clone()).catch(() => { });
+
+            return { response: response, cachePromise: cachePromise };
+        } catch (e) {
+            return { response: await fetch(partName), cachePromise: null };
+        }
+    }
+
     async function loadGameZip() {
 
         try {
-            let response = await fetch(window.gameZipURL);
-
-            if (!response.ok) {
-                reportError("Could not load game.zip: " + response.status + " " + response.statusText);
-            }
-
-            gameZipSize = parseInt(response.headers.get('Content-Length'), 10);
-            if(Number.isNaN(gameZipSize)) gameZipSize = 0;
-
-            let reader = await response.body.getReader();
+            gameZipStarted = true;
+            updateDownloadProgress();
 
             let f = FS.open('/game.zip', 'w');
 
-            while (true) {
+            try {
+                for (let i = 0; i < gameZipPartCount; i++) {
+                    const partName = gameZipPartBaseName + i;
+                    const part = await getGameZipPart(partName);
+                    let response = part.response;
 
-                let { done, value } = await reader.read();
+                    const contentLength = parseInt(response.headers.get('Content-Length'), 10);
+                    if (!Number.isNaN(contentLength)) {
+                        gameZipSize += contentLength;
+                    }
 
-                if (done) {
-                    break;
+                    let reader = await response.body.getReader();
+
+                    while (true) {
+
+                        let { done, value } = await reader.read();
+
+                        if (done) {
+                            break;
+                        }
+
+                        FS.write(f, value, 0, value.length);
+                        gameZipDownloaded += value.length;
+
+                        updateDownloadProgress();
+                    }
+
+                    if (part.cachePromise) {
+                        await part.cachePromise;
+                    }
                 }
-
-                FS.write(f, value, 0, value.length);
-                gameZipDownloaded += value.length;
-
-                updateDownloadProgress();
+            } finally {
+                FS.close(f);
             }
-
-            FS.close(f);
 
         } catch (e) {
             reportError("Could not download game.zip", e);
